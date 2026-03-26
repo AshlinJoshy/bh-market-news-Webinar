@@ -267,8 +267,8 @@ export default function WebinarPage() {
                 ["0:00 – 2:00", "Welcome & introductions"],
                 ["2:00 – 7:00", "Context & market overview"],
                 ["7:00 – 15:00", "Market reality & insights"],
-                ["15:00 – 23:00", "Engagement section: 'live' Q&A"],
-                ["23:00 – 30:00", "Key takeaways & strong CTA"],
+                ["15:00 – 23:00", "Q&A"],
+                ["23:00 – 30:00", "Key takeaways"],
               ].map(([time, segment], index) => (
                 <div
                   key={index}
