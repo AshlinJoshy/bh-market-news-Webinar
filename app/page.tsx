@@ -96,8 +96,8 @@ export default function WebinarPage() {
                   <p className="text-sm text-[#5A6B73]">Specialists</p>
                 </div>
                 <div>
-                  <p className="text-3xl font-bold text-[#1F343F]">2,500+</p>
-                  <p className="text-sm text-[#5A6B73]">Positive reviews</p>
+                  <p className="text-3xl font-bold text-[#1F343F]">40 years</p>
+                  <p className="text-sm text-[#5A6B73]">Of experience</p>
                 </div>
               </div>
             </div>
