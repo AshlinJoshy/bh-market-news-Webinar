@@ -11,24 +11,23 @@ const t = {
     font: "font-sans",
     headerTagline: "Dubai market news",
     heroLabel: "Exclusive webinar",
-    heroTitle: "Dubai property market: what\u2019s really happening",
+    heroTitle: "Dubai Property Market Update",
+    heroSubtitle: "Insights from the people who\u2019ve experienced every cycle",
     heroDesc:
-      "Join our webinar to find the latest market signals and get experienced guidance that matters in a changing market",
+      "Join our webinar to find the latest market signals and get experienced guidance that matters in a changing market.",
     date: "Thursday, 2nd April 2026",
     time: "10:00 AM \u2013 10:30 AM (GMT +4)",
-    online: "Online event",
+    online: "Live webinar and Q&A",
     stat1Value: "250k+",
-    stat1Label: "Transactions",
+    stat1Label: "transactions",
     stat2Value: "300+",
-    stat2Label: "Specialists",
+    stat2Label: "specialists",
     stat3Value: "40 years",
-    stat3Label: "Of experience",
+    stat3Label: "of experience",
     formTitle: "Reserve your spot",
     formSubtitle: "Limited seats available.",
-    firstNameLabel: "First name",
-    firstNamePlaceholder: "John",
-    lastNameLabel: "Last name",
-    lastNamePlaceholder: "Smith",
+    nameLabel: "Name",
+    namePlaceholder: "John Smith",
     emailLabel: "Email address",
     emailPlaceholder: "john@example.com",
     phoneLabel: "Phone number",
@@ -50,13 +49,13 @@ const t = {
       { value: "-18%", label: "Website traffic" },
     ],
     agendaTitle: "Agenda",
-    agendaColTime: "Time",
+    agendaColTime: "Time (mins)",
     agendaColSegment: "Segment",
     agendaRows: [
-      ["0:00 \u2013 2:00", "Welcome & introductions"],
-      ["2:00 \u2013 7:00", "Context & market overview"],
+      ["0:00 \u2013 2:00", "Introductions"],
+      ["2:00 \u2013 7:00", "Market overview"],
       ["7:00 \u2013 15:00", "Market reality & insights"],
-      ["15:00 \u2013 23:00", "Q&A"],
+      ["15:00 \u2013 23:00", "Live Q&A"],
       ["23:00 \u2013 30:00", "Key takeaways"],
     ],
     speakers: [
@@ -104,12 +103,13 @@ const t = {
     font: "font-arabic",
     headerTagline: "أخبار سوق دبي العقاري",
     heroLabel: "ندوة حصرية عبر الإنترنت",
-    heroTitle: "سوق العقارات في دبي: ماذا يحدث فعلاً؟",
+    heroTitle: "تحديث سوق العقارات في دبي",
+    heroSubtitle: "رؤى من أشخاص عايشوا كل دورة في السوق",
     heroDesc:
       "انضم إلى ندوتنا عبر الإنترنت لاكتشاف أحدث مؤشرات السوق والحصول على إرشادات من خبراء تساعدك على اتخاذ قرارات صحيحة في سوق متغير.",
     date: "الخميس، 2 أبريل 2026",
     time: "10:00 صباحًا – 10:30 صباحًا (GMT+4)",
-    online: "فعالية عبر الإنترنت",
+    online: "ندوة مباشرة وأسئلة وأجوبة",
     stat1Value: "+250 ألف",
     stat1Label: "معاملة",
     stat2Value: "+300",
@@ -118,10 +118,8 @@ const t = {
     stat3Label: "من الخبرة",
     formTitle: "احجز مقعدك الآن",
     formSubtitle: "المقاعد محدودة.",
-    firstNameLabel: "الاسم الأول",
-    firstNamePlaceholder: "جون",
-    lastNameLabel: "اسم العائلة",
-    lastNamePlaceholder: "سميث",
+    nameLabel: "الاسم",
+    namePlaceholder: "جون سميث",
     emailLabel: "البريد الإلكتروني",
     emailPlaceholder: "john@example.com",
     phoneLabel: "رقم الهاتف",
@@ -143,13 +141,13 @@ const t = {
       { value: "-18%", label: "حركة المرور على الموقع" },
     ],
     agendaTitle: "جدول الأعمال",
-    agendaColTime: "الوقت",
+    agendaColTime: "الوقت (دقيقة)",
     agendaColSegment: "الفقرة",
     agendaRows: [
-      ["0:00 – 2:00", "الترحيب والتعريف"],
-      ["2:00 – 7:00", "السياق ونظرة عامة على السوق"],
+      ["0:00 – 2:00", "المقدمات"],
+      ["2:00 – 7:00", "نظرة عامة على السوق"],
       ["7:00 – 15:00", "واقع السوق والتحليلات"],
-      ["15:00 – 23:00", "جلسة أسئلة وأجوبة"],
+      ["15:00 – 23:00", "أسئلة وأجوبة مباشرة"],
       ["23:00 – 30:00", "أهم النقاط والتوصيات"],
     ],
     speakers: [
@@ -195,11 +193,18 @@ const t = {
 
 const metricIcons = [TrendingUp, BarChart2, Building, Users, TrendingDown]
 
+// Tag colour pairs cycling through brand palette (bg, text)
+const TAG_STYLES = [
+  { bg: "#1F343F", text: "#EDE8E4" }, // slate blue / mist
+  { bg: "#2C537A", text: "#EDE8E4" }, // denim blue / mist
+  { bg: "#7BA0B2", text: "#1F343F" }, // powder blue / slate
+  { bg: "#D9B9A0", text: "#1F343F" }, // sand / slate
+]
+
 export default function WebinarPage() {
   const [lang, setLang] = useState<Lang>("en")
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
     email: "",
     phone: "",
   })
@@ -270,10 +275,13 @@ export default function WebinarPage() {
             {/* Left Content */}
             <div>
               <p className="text-[#2C537A] font-medium mb-4">{c.heroLabel}</p>
-              <h1 className="text-4xl lg:text-5xl font-bold text-[#1F343F] mb-6 leading-tight">
+              <h1 className="text-4xl lg:text-5xl font-bold text-[#1F343F] mb-3 leading-tight">
                 {c.heroTitle}
               </h1>
-              <p className="text-lg text-[#5A6B73] mb-8 leading-relaxed">
+              <p className="text-xl font-semibold text-[#2C537A] mb-5 leading-snug">
+                {c.heroSubtitle}
+              </p>
+              <p className="text-lg text-[#7BA0B2] mb-8 leading-relaxed">
                 {c.heroDesc}
               </p>
 
@@ -297,15 +305,15 @@ export default function WebinarPage() {
               <div className="flex flex-wrap gap-8 py-6 border-t border-[#D9B9A0]">
                 <div>
                   <p className="text-3xl font-bold text-[#1F343F]">{c.stat1Value}</p>
-                  <p className="text-sm text-[#5A6B73]">{c.stat1Label}</p>
+                  <p className="text-sm text-[#7BA0B2]">{c.stat1Label}</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold text-[#1F343F]">{c.stat2Value}</p>
-                  <p className="text-sm text-[#5A6B73]">{c.stat2Label}</p>
+                  <p className="text-sm text-[#7BA0B2]">{c.stat2Label}</p>
                 </div>
                 <div>
                   <p className="text-3xl font-bold text-[#1F343F]">{c.stat3Value}</p>
-                  <p className="text-sm text-[#5A6B73]">{c.stat3Label}</p>
+                  <p className="text-sm text-[#7BA0B2]">{c.stat3Label}</p>
                 </div>
               </div>
             </div>
@@ -318,45 +326,28 @@ export default function WebinarPage() {
                     <CheckCircle className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-[#1F343F] mb-2">{c.successTitle}</h3>
-                  <p className="text-[#5A6B73]">{c.successDesc}</p>
+                  <p className="text-[#7BA0B2]">{c.successDesc}</p>
                 </div>
               ) : (
                 <>
                   <h2 className="text-2xl font-bold text-[#1F343F] mb-2">{c.formTitle}</h2>
-                  <p className="text-[#5A6B73] mb-6">{c.formSubtitle}</p>
+                  <p className="text-[#7BA0B2] mb-6">{c.formSubtitle}</p>
 
                   <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-[#1F343F] mb-1">
-                          {c.firstNameLabel}
-                        </label>
-                        <input
-                          type="text"
-                          id="firstName"
-                          name="firstName"
-                          value={formData.firstName}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 border border-[#D9B9A0] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2C537A]"
-                          placeholder={c.firstNamePlaceholder}
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-[#1F343F] mb-1">
-                          {c.lastNameLabel}
-                        </label>
-                        <input
-                          type="text"
-                          id="lastName"
-                          name="lastName"
-                          value={formData.lastName}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-3 border border-[#D9B9A0] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2C537A]"
-                          placeholder={c.lastNamePlaceholder}
-                        />
-                      </div>
+                    <div>
+                      <label htmlFor="name" className="block text-sm font-medium text-[#1F343F] mb-1">
+                        {c.nameLabel}
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                        className="w-full px-4 py-3 border border-[#D9B9A0] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2C537A]"
+                        placeholder={c.namePlaceholder}
+                      />
                     </div>
 
                     <div>
@@ -399,7 +390,7 @@ export default function WebinarPage() {
                         required
                         className="mt-0.5 w-4 h-4 accent-[#2C537A] flex-shrink-0"
                       />
-                      <span className="text-xs text-[#5A6B73]">
+                      <span className="text-xs text-[#7BA0B2]">
                         {c.checkboxText}
                       </span>
                     </label>
@@ -459,7 +450,7 @@ export default function WebinarPage() {
               {c.agendaRows.map(([time, segment], index) => (
                 <div
                   key={index}
-                  className={`grid grid-cols-2 text-sm ${index % 2 === 0 ? "bg-[#F7F4F1]" : "bg-white"}`}
+                  className={`grid grid-cols-2 text-sm ${index % 2 === 0 ? "bg-[#EDE8E4]" : "bg-white"}`}
                 >
                   <div className="px-6 py-4 text-[#2C537A] font-medium">{time}</div>
                   <div className="px-6 py-4 text-[#1F343F]">{segment}</div>
@@ -471,18 +462,25 @@ export default function WebinarPage() {
             <div className="flex flex-col gap-8">
               {c.speakers.map((speaker, i) => (
                 <div key={i} className={`flex items-start gap-5 ${isRTL ? "flex-row-reverse" : ""}`}>
-                  <div className="w-20 h-20 bg-[#EDE8E4] rounded-full flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl font-bold text-[#2C537A]">{speaker.initials}</span>
+                  <div className="w-20 h-20 bg-[#1F343F] rounded-full flex items-center justify-center flex-shrink-0 shadow-md">
+                    <span className="text-2xl font-bold text-[#EDE8E4]">{speaker.initials}</span>
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-[#1F343F]">{speaker.name}</h3>
                     <p className="text-[#2C537A] font-medium mb-3">{speaker.role}</p>
                     <div className={`flex gap-2 flex-wrap ${isRTL ? "justify-end" : ""}`}>
-                      {speaker.tags.map((tag, j) => (
-                        <span key={j} className="bg-[#EDE8E4] text-[#1F343F] text-xs px-3 py-1 rounded-full">
-                          {tag}
-                        </span>
-                      ))}
+                      {speaker.tags.map((tag, j) => {
+                        const style = TAG_STYLES[(i * 2 + j) % TAG_STYLES.length]
+                        return (
+                          <span
+                            key={j}
+                            style={{ backgroundColor: style.bg, color: style.text }}
+                            className="text-xs font-semibold px-4 py-1.5 rounded-full shadow-sm"
+                          >
+                            {tag}
+                          </span>
+                        )
+                      })}
                     </div>
                   </div>
                 </div>
@@ -503,7 +501,7 @@ export default function WebinarPage() {
                 <button
                   type="button"
                   onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className={`w-full flex items-center justify-between px-6 py-5 bg-[#F7F4F1] hover:bg-[#EDE8E4] transition-colors ${isRTL ? "flex-row-reverse text-right" : "text-left"}`}
+                  className={`w-full flex items-center justify-between px-6 py-5 bg-[#EDE8E4] hover:bg-[#D9B9A0] transition-colors ${isRTL ? "flex-row-reverse text-right" : "text-left"}`}
                 >
                   <span className={`font-semibold text-[#1F343F] ${isRTL ? "pl-4" : "pr-4"}`}>{faq.question}</span>
                   {openFaq === index ? (
@@ -513,7 +511,7 @@ export default function WebinarPage() {
                   )}
                 </button>
                 {openFaq === index && (
-                  <div className="px-6 py-5 text-[#5A6B73] leading-relaxed">
+                  <div className="px-6 py-5 text-[#7BA0B2] leading-relaxed">
                     {faq.answer}
                   </div>
                 )}
